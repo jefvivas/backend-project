@@ -1,7 +1,7 @@
 import express, { Response, Request } from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
-
+import bcrypt from 'bcrypt'
 import { userModel } from './database/model'
 
 const app = express()
@@ -17,10 +17,11 @@ app.post('/register', async (req:Request, res:Response) => {
 
   if (loginExists === null) {
     if (password === passwordConfirmation) {
+      const hashedPassword = await bcrypt.hash(password, 12)
       await userModel.create({
         login: login,
         name: name,
-        password: password
+        password: hashedPassword
       })
     } else {
       return res.send({ message: 'Senhas não são iguais' })
@@ -29,6 +30,18 @@ app.post('/register', async (req:Request, res:Response) => {
     return res.send({ message: 'Usuario criado com sucesso' })
   }
   return res.send({ message: 'Usuario ja existe' })
+})
+
+app.post('/login', async (req:Request, res:Response) => {
+  const { login, password } = req.body
+
+  const user = await userModel.findOne({ login: login })
+  if (user === null) return res.send({ message: 'Usuario nao existente' })
+
+  const validPassword = await bcrypt.compare(password, user.password)
+
+  if (!validPassword) return res.send({ message: 'invalid login or password' })
+  return res.send({ message: 'logado' })
 })
 
 app.listen(4001, () => console.log('foi servidor'))

@@ -1,9 +1,9 @@
 import mongoose, { Schema } from 'mongoose'
 
 export interface User {
-    login: string;
-    name: string;
-    password: string;
+  login: string;
+  name: string;
+  password: string;
 }
 
 const userSchema = new Schema<User>({
