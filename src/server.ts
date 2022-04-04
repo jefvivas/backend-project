@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import bcrypt from 'bcrypt'
 import { userModel } from './database/model'
+import { sign } from 'jsonwebtoken'
 
 const app = express()
 app.use(express.json())
@@ -41,7 +42,8 @@ app.post('/login', async (req:Request, res:Response) => {
   const validPassword = await bcrypt.compare(password, user.password)
 
   if (!validPassword) return res.send({ message: 'invalid login or password' })
-  return res.send({ message: 'logado' })
+  const token = sign({ login }, 'xuxuzin', { expiresIn: 300 })
+  return res.send({ message: 'logado', token })
 })
 
 app.listen(4001, () => console.log('foi servidor'))
