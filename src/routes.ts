@@ -2,6 +2,7 @@ import express, { Response, Request } from 'express'
 import { userModel } from './database/model'
 import bcrypt from 'bcrypt'
 import { sign } from 'jsonwebtoken'
+import { verifyToken } from './auth'
 
 const router = express.Router()
 
@@ -36,8 +37,12 @@ router.post('/login', async (req:Request, res:Response) => {
   const validPassword = await bcrypt.compare(password, user.password)
 
   if (!validPassword) return res.send({ message: 'invalid login or password' })
-  const token = sign({ login }, 'xuxuzin', { expiresIn: 300 })
+  const token = sign({ login }, 'projectJwtKey', { expiresIn: 300 })
   return res.send({ message: 'logado', token })
+})
+
+router.get('/auth', verifyToken, (req:Request, res:Response) => {
+  res.send({ message: 'oi' })
 })
 
 export default router
