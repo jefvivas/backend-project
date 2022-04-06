@@ -42,7 +42,7 @@ router.post('/login', async (req:Request, res:Response) => {
 })
 
 router.get('/auth', verifyToken, (req:Request, res:Response) => {
-  res.send({ message: 'oi' })
+  res.send({ message: 'chegou aqui logado' })
 })
 
 export default router

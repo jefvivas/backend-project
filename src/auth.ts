@@ -2,12 +2,12 @@ import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
 
 export const verifyToken = async (req:Request, res:Response, next:NextFunction) => {
-  const token = req.body.token || req.query.token || req.headers['x-access-token']
+  const token = req.headers.authorization
   if (!token) {
     return res.send({ message: 'A token is required for authentication' })
   }
   try {
-    await jwt.verify(token, 'projectJwtKey')
+    await jwt.verify(token.split('Bearer ')[1], 'projectJwtKey')
   } catch (err) {
     return res.send({ message: 'Invalid Token' })
   }

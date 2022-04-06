@@ -7,5 +7,6 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 app.use(router)
-mongoose.connect('mongodb://localhost:27017/xu').then(() => console.log('foi o mongodb'))
-app.listen(4001, () => console.log('foi servidor'))
+
+mongoose.connect('mongodb://localhost:27017/xu').then(() => console.log('Conectou o MongoDB'))
+  .then(() => app.listen(4001, () => console.log('Conectou o servidor')))
