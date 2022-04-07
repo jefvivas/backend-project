@@ -7,7 +7,7 @@ export const verifyToken = async (req:Request, res:Response, next:NextFunction) 
     return res.send({ message: 'A token is required for authentication' })
   }
   try {
-    await jwt.verify(token.split('Bearer ')[1], 'projectJwtKey')
+    jwt.verify(token.split('Bearer ')[1], 'projectJwtKey')
   } catch (err) {
     return res.send({ message: 'Invalid Token' })
   }
