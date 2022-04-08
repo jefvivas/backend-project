@@ -27,7 +27,7 @@ export class LoginService {
     const validPassword = await bcrypt.compare(password, user.password)
 
     if (!validPassword) return res.send(badRequest('Usuário ou senha errados'))
-    const token = sign({ login }, 'projectJwtKey', { expiresIn: 300 })
-    return res.send(okTokenRequest('Você está logado', token))
+    sign({ login }, 'projectJwtKey', { expiresIn: 300 })
+    return res.send(okTokenRequest('Você está logado', login))
   }
 }
