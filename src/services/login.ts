@@ -28,6 +28,6 @@ export class LoginService {
 
     if (!validPassword) return res.send(badRequest('Usuário ou senha errados'))
     sign({ login }, 'projectJwtKey', { expiresIn: 300 })
-    return res.send(okTokenRequest('Você está logado', login))
+    return res.send(okTokenRequest('Você está logado', user.name))
   }
 }
