@@ -18,12 +18,12 @@ export const okRequest = (okMessage:string):IHttpResponse => {
   }
 }
 
-export const okTokenRequest = (okTokenMessage:string, login:string):IHttpResponse => {
+export const okTokenRequest = (okTokenMessage:string, name:string):IHttpResponse => {
   return {
     statusCode: 200,
     body: {
       okTokenMessage,
-      login
+      name
     }
   }
 }
