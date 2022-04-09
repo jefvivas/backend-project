@@ -12,7 +12,7 @@ interface IRegisterBody{
 }
 export class RegisterService {
   async register (req:IHttpRequest<IRegisterBody>, res:Response) {
-    const requiredfields:Array<keyof IRegisterBody> = ['login', 'name', 'password', 'passwordConfirmation']
+    const requiredfields:Array<keyof IRegisterBody> = ['name', 'login', 'password', 'passwordConfirmation']
 
     for (const field of requiredfields) {
       if (!req.body[field]) {
