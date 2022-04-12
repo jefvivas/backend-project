@@ -1,8 +1,9 @@
 import { Response } from 'express'
 import { badRequest, okRequest } from '../responses/HttpResponse'
 import { userModel } from '../database/model'
-import bcrypt from 'bcrypt'
+// import bcrypt from 'bcrypt'
 import { IHttpRequest } from '../responses/HttpRequest'
+import { Bcryptadapter } from '../adapters/bcryptAdapter'
 
 interface IRegisterBody{
     login:string,
@@ -26,7 +27,9 @@ export class RegisterService {
 
     if (loginExists === null) {
       if (password === passwordConfirmation) {
-        const hashedPassword = await bcrypt.hash(password, 12)
+        // const hashedPassword = await bcrypt.hash(password, 12)
+        const bcryptAdapter = new Bcryptadapter(12)
+        const hashedPassword = await bcryptAdapter.encrypt(password)
         await userModel.create({
           login: login,
           name: name,
