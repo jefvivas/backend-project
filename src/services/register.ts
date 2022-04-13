@@ -4,6 +4,7 @@ import { userModel } from '../database/model'
 // import bcrypt from 'bcrypt'
 import { IHttpRequest } from '../responses/HttpRequest'
 import { Bcryptadapter } from '../adapters/bcryptAdapter'
+import { AddDbAdapter } from '../adapters/addDbAdapter'
 
 interface IRegisterBody{
     login:string,
@@ -27,13 +28,12 @@ export class RegisterService {
 
     if (loginExists === null) {
       if (password === passwordConfirmation) {
-        // const hashedPassword = await bcrypt.hash(password, 12)
         const bcryptAdapter = new Bcryptadapter(12)
-        const hashedPassword = await bcryptAdapter.encrypt(password)
-        await userModel.create({
+        const addUserAdapter = new AddDbAdapter(bcryptAdapter)
+        await addUserAdapter.addUser({
           login: login,
           name: name,
-          password: hashedPassword
+          password: password
         })
       } else {
         return res.send(badRequest('Senhas não são iguais'))
