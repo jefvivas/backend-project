@@ -28,8 +28,7 @@ export class RegisterService {
 
     if (loginExists === null) {
       if (password === passwordConfirmation) {
-        const bcryptAdapter = new Bcryptadapter(12)
-        const addUserAdapter = new AddDbAdapter(bcryptAdapter)
+        const addUserAdapter = new AddDbAdapter(new Bcryptadapter(12))
         await addUserAdapter.addUser({
           login: login,
           name: name,

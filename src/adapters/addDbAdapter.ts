@@ -7,20 +7,12 @@ export interface IUserModel{
     password:string
 }
 
-export interface IUserDbModel{
-    _id:string
-    login:string
-    name:string
-    password:string
-
-}
-
 export interface IAddDbAdapter{
-    addUser(user:IUserModel):Promise<IUserDbModel>
+    addUser(user:IUserModel):Promise<IUserModel>
 
 }
 
-export class AddDbAdapter {
+export class AddDbAdapter implements IAddDbAdapter {
     private readonly encrypter
     constructor (encrypter:IEncrypter) {
       this.encrypter = encrypter
